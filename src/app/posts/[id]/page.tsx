@@ -2,13 +2,6 @@ import Link from "next/link"
 import {Params} from "./type"
 import {getPostIdList, getPostDetails} from "@/app/lib/post"
 
-export async function getStaticPaths() {
-    const paths = await getPostIdList();
-    return {
-      paths,
-      fallback: false,
-    };
-  }
 export function generateMetadata({ params }: Params)
 {
     return {
