@@ -1,7 +1,15 @@
+export function generateMetadata()
+{
+    return {
+        title: 'Mi blog - ABOUT',
+        description: 'Mi blog creado con next',
+    }
+}
 export default function PageAbout() {
     return (
+        
         <div>
-            <h1>About</h1>
+          About
         </div>
     )
 }
