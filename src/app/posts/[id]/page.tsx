@@ -1,10 +1,15 @@
-"use client"
-import { useRouter } from "next/navigation"
+import Link from "next/link"
+import {Params} from "./type"
+import {getPostIdList, getPostDetails} from "@/app/lib/post"
 
-type Props = {
-    params: { id: number }
+export async function getStaticPaths() {
+    const paths = await getPostIdList();
+    return {
+      paths,
+      fallback: false,
+    };
   }
-export function generateMetadata({ params }: Props)
+export function generateMetadata({ params }: Params)
 {
     return {
         title: 'Mi blog - POSTS - ' + params.id,
@@ -12,18 +17,16 @@ export function generateMetadata({ params }: Props)
     }
 }
 
-export default function PagePostID({ params }: Props) {
-    const router = useRouter()
+export default async function PagePostID({ params }: Params) {
+    const postData = await getPostDetails(params.id);
     return (
-        <div>
-          <h1 className="text-xl mb-2">Post ID: {params.id}</h1>
-          <button className="rounded text-sm bg-indigo-600 text-white p-1.5 m-1.5" 
-                    onClick={() => {
-                        router.push('/posts')
-                    }}>
-            Volver
-          </button>
+        <div className="bg-gray-800 p-16 text-gray-100">
+        <div className="text-center font-bold text-3xl">{postData.title}</div>
+        <div className="text-justify my-8 text-gray-200">
+          {postData.description}
         </div>
-
+        <div className="text-gray-400">Published On: {postData.date}</div>
+        <Link href="/posts" className="rounded text-sm bg-indigo-600 text-white p-1.5 m-1.5">Volver</Link>
+      </div>
     )
 }
